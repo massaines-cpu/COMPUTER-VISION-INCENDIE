@@ -1,0 +1,4 @@
+ultralytics
+pandas
+fiftyone
+scikit-learn
