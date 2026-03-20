@@ -2,3 +2,4 @@ ultralytics
 pandas
 fiftyone
 scikit-learn
+matplotlib
