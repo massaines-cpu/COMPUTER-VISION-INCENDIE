@@ -15,6 +15,7 @@ def open_data(path):
     return coco
 
 coco = open_data(path)
+print(len(coco['annotations']))
 
 
 #Écrire une 2e fonction qui charge images et annotations dans des DataFrames pandas

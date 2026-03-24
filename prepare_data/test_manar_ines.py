@@ -29,5 +29,4 @@ for image_ann in coco['annotations']:
         bb = patches.Rectangle((x, y), w, h, linewidth=3, edgecolor='red', facecolor='none')
         ax.add_patch(bb)
 
-
 plt.show()
