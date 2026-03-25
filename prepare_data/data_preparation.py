@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+import supervision as sv
+from pathlib import Path
 import matplotlib.patches as patches
 import json
 import pandas as pd
@@ -74,8 +76,6 @@ for i in coco['images']:
         liste_y_yolo.append(y_yolo)
 
 
-
-
 print('liste w yolo:', liste_w_yolo)
 print('-----' * 40)
 print('liste h yolo:', liste_h_yolo)
@@ -100,5 +100,16 @@ try:
 except OSError as e:
     print(os.strerror(e.errno))
 
-
 # répartit et copie les fichiers dedans (70/20/10)
+ds = sv.DetectionDataset.from_yolo(
+      images_directory_path=f'../data/train/images',
+      annotations_directory_path=f'../data/train/label', data_yaml_path= f'../data/train.yaml',)
+train_ds, test_ds = ds.split(split_ratio=0.7, random_state=42, shuffle=True)
+len(train_ds), len(test_ds)
+
+liste_images_path = []
+for f in os.listdir(data):
+     if '.jpg' in f:
+         path_img = Path("f")
+         liste_images_path.append(path_img)
+ print(liste_images_path)
