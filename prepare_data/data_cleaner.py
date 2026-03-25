@@ -49,27 +49,31 @@ for i in coco['images']:
     liste_id_des_images2.append(i['id'])
 print(liste_id_des_images2)
 
-liste_id_des_images_annotation1 = []
-liste_id_des_images_inexistances = []
+
+liste_id_des_images_inexistantes = []
 
 for a in coco['annotations']:
-    if a['image_id'] in liste_id_des_images2:
-        liste_id_des_images_annotation1.append(a['image_id'])
-    else:
-        liste_id_des_images_annotation1.append(a['image_id'])
-print(liste_id_des_images_annotation1)
+    if a['image_id'] not in liste_id_des_images2:
+        liste_id_des_images_inexistantes.append(a['image_id'])
 
-print('liste des annotations qui pointent vers une image inexistante :', liste_id_des_images2 - liste_id_des_images_annotation1)
+print('liste d\'annotations qui pointent vers une image inexistante:', liste_id_des_images_inexistantes)
+
+# print('liste des annotations qui pointent vers une image inexistante :', liste_id_des_images2 - liste_id_des_images_annotation1)
 
 
 
 # Fonction 5 — Valeurs aberrantes : détecter les bounding boxes incohérentes (largeur=0, hauteur négative,
 # etc.).
-liste4= []
+liste_bbox = []
+liste_bbox_negativo = []
 
 for a in coco['annotations']:
-    for i in a['bbox']:
-        if (i[1]-i[0] <= 0) or (i[2]-i[1] <= 0):
-            liste4.append(i)
+    x = a['bbox'][0]
+    y = a['bbox'][1]
+    w = a['bbox'][2]
+    h = a['bbox'][3]
+    liste_bbox.append([x, y, w, h])
 
-print('nombre d\'annotations orpheline:', len(liste3))
+    if x < 0 or y < 0 or w < 0 or h < 0:
+        liste_bbox_negativo.append([x, y, w, h])
+print(len(liste_bbox_negativo))
