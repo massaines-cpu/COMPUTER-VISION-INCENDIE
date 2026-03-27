@@ -32,13 +32,13 @@ print('nombre d\'image qui ont une entrée JSON:', len(liste))
 liste_id_des_images = set()
 for i in coco['images']:
     liste_id_des_images.add(i['id'])
-print(liste_id_des_images)
+print('liste id images', liste_id_des_images)
 
 liste_id_des_images_annotation = set()
 
 for a in coco['annotations']:
     liste_id_des_images_annotation.add(a['image_id'])
-print(liste_id_des_images_annotation)
+print('liste id images annotation', liste_id_des_images_annotation)
 
 print('liste des images sans annotations :', liste_id_des_images - liste_id_des_images_annotation)
 
@@ -47,7 +47,7 @@ print('liste des images sans annotations :', liste_id_des_images - liste_id_des_
 liste_id_des_images2 = []
 for i in coco['images']:
     liste_id_des_images2.append(i['id'])
-print(liste_id_des_images2)
+print('liste id image', liste_id_des_images2)
 
 
 liste_id_des_images_inexistantes = []

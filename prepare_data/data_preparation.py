@@ -8,6 +8,9 @@ import pandas as pd
 from data_loader import open_data
 from PIL import Image
 import os
+import shutil
+from sklearn.model_selection import train_test_split
+
 # lit les images nettoyées depuis data/
 
 
@@ -126,8 +129,6 @@ for f in os.listdir(data):
          liste_images_path.append(path_img)
 print(liste_images_path)
 
-import shutil
-from sklearn.model_selection import train_test_split
 train, temp = train_test_split(liste_images_path, test_size=0.3, random_state=42)
 val, test = train_test_split(temp, test_size=0.33, random_state=42)
 
@@ -138,19 +139,15 @@ print(f"Test : {len(test)} images")
 def copier_fichiers(liste, dossier_destination):
 
     for image_path in liste:
-        # Copier l'image
         shutil.copy(image_path, dossier_destination / 'images')
 
-        # Trouver et copier le label associé
-        nom_label = image_path.stem + '.txt'  # même nom mais .txt
+        nom_label = image_path.stem + '.txt'
         label_path = Path('../data/labels') / nom_label
 
         if label_path.exists():
             shutil.copy(label_path, dossier_destination / 'labels')
 
-    # Appliquer la fonction sur chaque split
 copier_fichiers(train, Path('../data/train'))
 copier_fichiers(val, Path('../data/val'))
 copier_fichiers(test, Path('../data/test'))
 
-print("Split terminé !")
