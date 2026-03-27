@@ -51,38 +51,36 @@ count = 0
 # # plt.show()
 
 # convertit les annotations au format YOLO
+
 data2 = '../data/_annotations.coco.json'
 coco = open_data(data2)
-liste_w_yolo = []
-liste_h_yolo = []
-liste_x_yolo = []
-liste_y_yolo = []
+
+os.makedirs('../data/labels', exist_ok=True)
 for i in coco['images']:
+    image_id = i['id']
     image_height = i['height']
     image_width = i['width']
-    for a in coco['annotations']:
+
+    annotations_image = [a for a in coco['annotations']
+                         if a['image_id'] == image_id]
+    ligne_yolo = []
+    for a in annotations_image:
         x_coco = a['bbox'][0]
         y_coco = a['bbox'][1]
         w_coco = a['bbox'][2]
         h_coco = a['bbox'][3]
+        category_id = a['category_id']
+
 
         w_yolo = w_coco/ image_width
         h_yolo = h_coco/ image_height
         x_yolo = (x_coco + (w_coco/2))/image_width
         y_yolo = (y_coco + (h_coco/2))/image_height
-        liste_w_yolo.append(w_yolo)
-        liste_h_yolo.append(h_yolo)
-        liste_x_yolo.append(x_yolo)
-        liste_y_yolo.append(y_yolo)
+        ligne_yolo.append(f"{category_id} {x_yolo} {y_yolo} {w_yolo} {h_yolo}")
 
-
-print('liste w yolo:', liste_w_yolo)
-print('-----' * 40)
-print('liste h yolo:', liste_h_yolo)
-print('-----' * 40)
-print('liste x yolo:', liste_x_yolo)
-print('liste y yolo:', liste_y_yolo)
-
+    nom_fichier = i['file_name'].replace('.jpg', '.txt')
+    with open(f'../data/labels/{nom_fichier}', 'w') as f:
+        f.write('\n'.join(ligne_yolo))
 
 
 # crée tout seul les dossiers train/, val/, test/ (avec les sous-dossiers images/ et labels/)
@@ -92,24 +90,25 @@ try:
     os.mkdir('../data/test')
 
     os.mkdir('../data/train/images')
-    os.mkdir('../data/train/label')
+    os.mkdir('../data/train/labels')
     os.mkdir('../data/val/images')
-    os.mkdir('../data/val/label')
+    os.mkdir('../data/val/labels')
     os.mkdir('../data/test/images')
-    os.mkdir('../data/test/label')
+    os.mkdir('../data/test/labels')
 except OSError as e:
     print(os.strerror(e.errno))
 
-# répartit et copie les fichiers dedans (70/20/10)
-ds = sv.DetectionDataset.from_yolo(
-      images_directory_path=f'../data/train/images',
-      annotations_directory_path=f'../data/train/label', data_yaml_path= f'../data/train.yaml',)
-train_ds, test_ds = ds.split(split_ratio=0.7, random_state=42, shuffle=True)
-len(train_ds), len(test_ds)
+# répartir et copier les fichiers dedans (70/20/10)
+#70 dans train
+#20 dans val
+#10 dans test
 
 liste_images_path = []
 for f in os.listdir(data):
      if '.jpg' in f:
-         path_img = Path("f")
+         path_img = Path(data) / f
          liste_images_path.append(path_img)
- print(liste_images_path)
+print(liste_images_path)
+
+import shutil
+
