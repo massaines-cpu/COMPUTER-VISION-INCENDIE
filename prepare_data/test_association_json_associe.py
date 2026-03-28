@@ -1,4 +1,4 @@
-from prepare_data.split import train_id, train_annotations, coco_clean, test_id, val_id
+from prepare_data.data_split import train_id, train_annotations, coco_clean, test_id, val_id
 import json
 
 train_set = {
