@@ -31,9 +31,9 @@ print('nb annotations dans val:', len(val_annotations))
 
 
 data = '../data/'
-def copie_des_images(liste_images, ids, destination):
-    for i in liste_images:
-        if i['id'] in ids:
+def copie_des_images(images, split_ids, destination):
+    for i in images:
+        if i['id'] in split_ids:
             source = os.path.join(data, i['file_name'])
             dst = os.path.join(destination, i['file_name'])
             shutil.copy(source, dst)
