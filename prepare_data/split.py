@@ -30,8 +30,6 @@ val_annotations = [a for a in coco_clean['annotations'] if a['image_id'] in val_
 print('nb annotations dans val:', len(val_annotations))
 
 
-
-
 data = '../data/'
 def copie_des_images(liste_images, ids, destination):
     for i in liste_images:
